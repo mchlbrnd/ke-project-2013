@@ -1,0 +1,26 @@
+# recipe tuple: (name, servings, course, cuisine)
+recipe(spaghetti, 4, main_course, italian)
+recipe(chocolate_cake, 8, dessert, british)
+
+# ingredient tuple: (name, glycemic index, fraction carbs, fraction fats, fractions proteins, fraction fibers, calories)
+ingredient(pasta, 45, 0.7, 0.01, 0.1, 0.03, 4)
+ingredient(tomato, 10, 0.1, 0, 0, 0, 0.2)
+ingredient(onion, 4, 0.06, 0, 0, 0.02, 0.1)
+ingredient(minced_meat, 5, 0.02, 0.3, 0.4, 0, 6.3)
+
+ingredient(sugar, 90, 1, 0, 0, 0, 9)
+ingredient(flower, 70, 0.8, 0.02, 0.12, 0.25, 4.2)
+ingredient(chocolate, 40, 0.3, 0.12, 0.03, 0, 0.5)
+ingredient(butter, 30, 0.02, 0.9, 0.08, 0, 12)
+
+# has_ingredient tuple: (recipe, ingredient, quantity)
+
+has_ingredient(spaghetti, pasta, 400)
+has_ingredient(spaghetti, tomato, 1200) 
+has_ingredient(spaghetti, onion, 350)
+has_ingredient(spaghetti, minced_meat, 400)
+
+has_ingredient(chocolate_cake, sugar, 200)
+has_ingredient(chocolate_cake, flower, 250)
+has_ingredient(chocolate_cake, chocolate, 60)
+has_ingredient(chocolate_cake, butter, 80)

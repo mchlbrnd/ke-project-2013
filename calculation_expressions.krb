@@ -1,0 +1,75 @@
+# ingredient tuple: (name, glycemic index, fraction carbs, fraction fats, fractions proteins, fraction fibers, calories)
+
+calculate_recipe_glycemic_load
+	foreach
+		food.recipe($recipe, $servings, $_course, $_cuisine)
+		python glycemic_loads = []
+		forall
+			food.has_ingredient($recipe, $ingredient, $quantity)
+			food.ingredient($ingredient, $glycemic_index, $fraction_carbohydrates, $_fsf, $_fp, $_ffi, $_cal)
+			python glycemic_loads.append(fun_calculate_glycemic_load($glycemic_index, $fraction_carbohydrates, $quantity, $servings))	
+		$glycemic_load = sum(glycemic_loads)
+	assert
+		food.recipe_glycemic_load($recipe, $glycemic_load)
+
+calculate_recipe_saturated_fats
+	foreach
+		food.recipe($recipe, $servings, $_course, $_cuisine)
+		python saturated_fats = []
+		forall
+			food.has_ingredient($recipe, $ingredient, $quantity)
+			food.ingredient($ingredient, $_gi, $_fc, $fraction_saturated_fat, $_fp, $_ffi, $_cal)
+			python saturated_fats.append(fun_calculate_ingredient_parameter($fraction_saturated_fat, $quantity, $servings))
+		$saturated_fats = sum(saturated_fats)
+	assert
+		food.recipe_saturated_fats($recipe, $saturated_fats)
+
+calculate_recipe_proteins
+	foreach
+		food.recipe($recipe, $servings, $_course, $_cuisine)
+		python proteins = []
+		forall
+			food.has_ingredient($recipe, $ingredient, $quantity)
+			food.ingredient($ingredient, $_gi, $_fc, $_fsf, $fraction_proteins, $_ffi, $_cal)
+			python proteins.append(fun_calculate_ingredient_parameter($fraction_proteins, $quantity, $servings))
+		$proteins = sum(proteins)	
+	assert
+		food.recipe_proteins($recipe, $proteins)
+
+calculate_recipe_fibers
+	foreach
+		food.recipe($recipe, $servings, $_course, $_cuisine)
+		python fibers = []
+		forall
+			food.has_ingredient($recipe, $ingredient, $quantity)
+			food.ingredient($ingredient, $_gi, $_fc, $_fsf, $_fp, $fraction_fibers, $_cal)
+			python fibers.append(fun_calculate_ingredient_parameter($fraction_fibers, $quantity, $servings))
+		$fibers = sum(fibers)
+	assert
+		food.recipe_fibers($recipe, $fibers)
+
+calculate_recipe_calories
+	foreach
+		food.recipe($recipe, $servings, $_course, $_cuisine)
+		python calories = []
+		forall
+			food.has_ingredient($recipe, $ingredient, $quantity)
+			food.ingredient($ingredient, $_gi, $_fc, $_fsf, $_fp, $_ffi, $calories)
+			python calories.append(fun_calculate_ingredient_parameter($calories, $quantity, $servings))
+		$calories = sum(calories)
+	assert
+		food.recipe_calories($recipe, $calories)
+
+fc_extras
+	def fun_calculate_glycemic_load(glycemic_index, fraction_carbohydrates, quantity, servings):
+		return glycemic_index * fraction_carbohydrates * (quantity / servings) / 100
+	
+	def fun_calculate_ingredient_parameter(parameter, quantity, servings):
+		return parameter * (quantity / servings)
+	
+
+
+
+
+
+	

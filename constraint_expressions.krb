@@ -1,0 +1,23 @@
+constrain_breakfast_glycemic_load
+	foreach
+		food.recipe_glycemic_load($recipe, $glycemic_load)
+		food.recipe($recipe, $_servings, breakfast, $_cuisine)
+		check $glycemic_load > 10
+	assert
+		food.maximum_glycemic_load($recipe, True)
+
+constrain_main_course_glycemic_load
+	foreach
+		food.recipe_glycemic_load($recipe, $glycemic_load)
+		food.recipe($recipe, $_servings, main_course, $_cuisine)
+		check $glycemic_load > 20
+	assert
+		food.maximum_glycemic_load($recipe, True)
+		
+constrain_dessert_glycemic_load
+	foreach
+		food.recipe_glycemic_load($recipe, $glycemic_load)
+		food.recipe($recipe, $_servings, dessert, $_cuisine)
+		check $glycemic_load > 41
+	assert
+		food.maximum_glycemic_load($recipe, True)
