@@ -12,6 +12,17 @@ calculate_recipe_glycemic_load
 	assert
 		food.recipe_glycemic_load($recipe, $glycemic_load)
 
+calculate_ingredient_glycemic_load
+        foreach
+                food.recipe($recipe, $servings, $_, $_)
+                food.has_ingredient($recipe, $ingredient, $quantity)
+                food.ingredient($ingredient, $glycemic_index, $fraction_carbohydrates, $_, $_, $_, $_)
+                $glycemic_load_of_ingredient_in_recipe = fun_calculate_glycemic_load($glycemic_index, $fraction_carbohydrates, $quantity, $servings)
+                $glycemic_load_of_one_ingredient_unit = fun_calculate_glycemic_load($glycemic_index, $fraction_carbohydrates, 1, 1)
+        assert
+                food.ingredient_glycemic_load_of_one_unit($ingredient, $glycemic_load_of_one_ingredient_unit)
+                food.ingredient_glycemic_load($recipe, $ingredient, $glycemic_load_of_ingredient_in_recipe)
+
 calculate_recipe_saturated_fats
 	foreach
 		food.recipe($recipe, $servings, $_course, $_cuisine)
@@ -23,6 +34,17 @@ calculate_recipe_saturated_fats
 		$saturated_fats = sum(saturated_fats)
 	assert
 		food.recipe_saturated_fats($recipe, $saturated_fats)
+
+calculate_ingredient_saturated_fats
+	foreach
+		food.recipe($recipe, $servings, $_, $_)
+		food.has_ingredient($recipe, $ingredient, $quantity)
+		food.ingredient($ingredient, $_, $_, $fraction_saturated_fat, $_, $_, $_)
+		$saturated_fats_of_ingredient_in_recipe = fun_calculate_ingredient_parameter($fraction_saturated_fat, $quantity, $servings)
+		$saturated_fats_of_one_ingredient_unit = fun_calculate_ingredient_parameter($fraction_saturated_fat, 1, 1)
+	assert
+		food.ingredient_saturated_fats_of_one_unit($ingredient, $saturated_fats_of_one_ingredient_unit)
+		food.ingredient_saturated_fats($recipe, $ingredient, $saturated_fats_of_ingredient_in_recipe)
 
 calculate_recipe_proteins
 	foreach
@@ -36,6 +58,18 @@ calculate_recipe_proteins
 	assert
 		food.recipe_proteins($recipe, $proteins)
 
+calculate_ingredient_proteins
+        foreach
+                food.recipe($recipe, $servings, $_, $_)
+                food.has_ingredient($recipe, $ingredient, $quantity)
+                food.ingredient($ingredient, $_, $_, $_, $fraction_proteins, $_, $_)
+                $proteins_of_ingredient_in_recipe = fun_calculate_ingredient_parameter($fraction_proteins, $quantity, $servings)
+                $proteins_of_one_ingredient_unit = fun_calculate_ingredient_parameter($fraction_proteins, 1, 1)
+        assert
+                food.ingredient_proteins_of_one_unit($ingredient, $proteins_of_one_ingredient_unit)
+                food.ingredient_proteins($recipe, $ingredient, $proteins_of_ingredient_in_recipe)
+
+
 calculate_recipe_fibers
 	foreach
 		food.recipe($recipe, $servings, $_course, $_cuisine)
@@ -48,6 +82,17 @@ calculate_recipe_fibers
 	assert
 		food.recipe_fibers($recipe, $fibers)
 
+calculate_ingredient_fibers
+        foreach
+                food.recipe($recipe, $servings, $_, $_)
+                food.has_ingredient($recipe, $ingredient, $quantity)
+                food.ingredient($ingredient, $_, $_, $_, $_, $fraction_fibers, $_)
+                $fibers_of_ingredient_in_recipe = fun_calculate_ingredient_parameter($fraction_fibers, $quantity, $servings)
+                $fibers_of_one_ingredient_unit = fun_calculate_ingredient_parameter($fraction_fibers, 1, 1)
+        assert
+                food.ingredient_fibers_of_one_unit($ingredient, $fibers_of_one_ingredient_unit)
+                food.ingredient_fibers($recipe, $ingredient, $fibers_of_ingredient_in_recipe)
+
 calculate_recipe_calories
 	foreach
 		food.recipe($recipe, $servings, $_course, $_cuisine)
@@ -59,6 +104,17 @@ calculate_recipe_calories
 		$calories = sum(calories)
 	assert
 		food.recipe_calories($recipe, $calories)
+
+calculate_ingredient_calories
+        foreach
+                food.recipe($recipe, $servings, $_, $_)
+                food.has_ingredient($recipe, $ingredient, $quantity)
+                food.ingredient($ingredient, $_, $_, $_, $_, $_, $fraction_calories)
+                $calories_of_ingredient_in_recipe = fun_calculate_ingredient_parameter($fraction_calories, $quantity, $servings)
+                $calories_of_one_ingredient_unit = fun_calculate_ingredient_parameter($fraction_calories, 1, 1)
+        assert
+                food.ingredient_calories_of_one_unit($ingredient, $calories_of_one_ingredient_unit)
+                food.ingredient_calories($recipe, $ingredient, $calories_of_ingredient_in_recipe)
 
 fc_extras
 	def fun_calculate_glycemic_load(glycemic_index, fraction_carbohydrates, quantity, servings):
